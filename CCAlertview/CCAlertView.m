@@ -38,13 +38,13 @@
 
 -(id) initWithTitle:(NSString*)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitle:(NSString *)otherButtonTitle  {
 	
-    if(self == [super init])
+    if( (self = [super init]) )
 		
     {
         self._delegate = delegate;
         
         BOOL isIPAD = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
-
+        
         CGSize size = CGSizeMake(287, 139);
         NSString *fontStyle = @"HelveticaNeue-Bold";
         NSString *altImg = @"redalertview.png"; if (isIPAD) altImg = @"redalertview-hd.png";
@@ -91,7 +91,7 @@
 		CCLabelTTF *TitleLabel = [CCLabelTTF labelWithString:title fontName:fontStyle fontSize:fnt1];
 		TitleLabel.position = ccp(alertViewSprite.contentSize.width * .5, alertViewSprite.contentSize.height-titleHtDif);
 		[alertViewSprite addChild:TitleLabel];
-    
+        
         CCLabelTTF *MessageLabel = [CCLabelTTF labelWithString:message fontName:fontStyle fontSize:fnt2 dimensions:CGSizeMake(alertViewSprite.contentSize.width - 10, fnt2*3) hAlignment:kCCTextAlignmentCenter vAlignment:kCCVerticalTextAlignmentCenter lineBreakMode:kCCLineBreakModeWordWrap];
 		MessageLabel.position = ccp(alertViewSprite.contentSize.width * .5, alertViewSprite.contentSize.height-msgHtDif);
 		[alertViewSprite addChild:MessageLabel];
@@ -125,7 +125,7 @@
     
     [alertViewSprite runAction:pulse];
     
-    [[SimpleAudioEngine sharedEngine] playEffect:@"alert.caf"];
+//    [[SimpleAudioEngine sharedEngine] playEffect:@"alert.caf"];
 }
 
 -(void) otherButtonPressed:(id) sender {

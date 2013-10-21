@@ -25,6 +25,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
+ *
+ * Update by David DUTOUR (better animations and add ShowAlert with Sprites)
+ * https://github.com/David4D/cocos2d-utils/tree/master/ModalAlert
+ *
  */
 
 #import <Foundation/Foundation.h>
@@ -35,4 +39,5 @@
 + (void) Ask: (NSString *) question onLayer: (CCLayer *) layer yesBlock: (void(^)())yesBlock noBlock: (void(^)())noBlock;
 + (void) Confirm: (NSString *) question onLayer: (CCLayer *) layer okBlock: (void(^)())okBlock cancelBlock: (void(^)())cancelBlock;
 + (void) Tell: (NSString *) statement onLayer: (CCLayer *) layer okBlock: (void(^)())okBlock;
++ (void) ShowAlert: (NSString*) message onLayer: (CCLayer *) layer withSpriteOK: (CCSprite*)spriteOk withOKBlock: (void(^)())opt1Block withSpriteKO: (CCSprite*)spriteKo withKOBlock: (void(^)())opt2Block;
 @end
