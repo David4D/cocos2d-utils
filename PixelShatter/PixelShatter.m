@@ -66,7 +66,7 @@
     
     texY = texY + hgt;
 	
-	self.contentSize = sprite.contentSize;
+	_contentSize = sprite.contentSize;
 	
 	ccColor4B		color4 = {self.color.r, self.color.g, self.color.b, self.opacity };
 	BoxColors		boxColor4 = { color4, color4, color4, color4, color4, color4 };
@@ -226,7 +226,7 @@
         }
     }
     
-	if (rand()%100<subShatterPercent) [self subShatter];
+	if (arc4random()%100<subShatterPercent) [self subShatter];
 }
 
 - (void)draw {
@@ -237,13 +237,13 @@
 	
 	CC_NODE_DRAW_SETUP();
 	
-	ccGLBlendFunc(self.blendFunc.src, self.blendFunc.dst);
+	ccGLBlendFunc(_blendFunc.src, _blendFunc.dst);
 	
 	ccGLEnableVertexAttribs(kCCVertexAttribFlag_PosColorTex);
 	glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, texCoords);
 	glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, colorArray);
 	
-	ccGLBindTexture2D([self.texture name]);
+	ccGLBindTexture2D([_texture name]);
 	glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
 	glDrawArrays(GL_TRIANGLES, 0, numVertices*6);
 	
@@ -252,7 +252,7 @@
 	CC_INCREMENT_GL_DRAWS(1);
 	
 	CC_PROFILER_STOP_CATEGORY(kCCProfilerCategorySprite, @"PixelShatter - draw");
-	
+
 #else
 	//OpenGL ES 1
 	CC_ENABLE_DEFAULT_GL_STATES();
@@ -266,7 +266,7 @@
 		glDrawArrays(GL_TRIANGLES, 0, numVertices*3);
 	}
     
-    glBindTexture(GL_TEXTURE_2D, self.texture.name);
+    glBindTexture(GL_TEXTURE_2D, _texture.name);
 	glVertexPointer(2, osGL_FLOAT, 0, vertices);
 	glDrawArrays(GL_TRIANGLES, 0, numVertices*3);
 	
