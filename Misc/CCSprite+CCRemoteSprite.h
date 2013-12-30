@@ -24,14 +24,12 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "UIImageView+AFNetworking.h"
-#import "ccMacros.h"
+
 #import "CCSprite.h"
 #import "CCTextureCache.h"
+
 @interface CCSprite (CCRemoteSprite)
 
-+ (id)spriteWithURL:(NSURL *)url;
-+ (id)spriteWithURL:(NSURL *)url placeholderTexture:(CCTexture2D *)placeholderTexture;
-+ (id)spriteWithURLRequest:(NSURLRequest *)request placeholderTexture:(CCTexture2D *)placeholderTexture;
+-(void) updateTextureWithURL:(NSURL *)imageURL;
 
 @end
