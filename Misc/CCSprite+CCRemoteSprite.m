@@ -28,7 +28,6 @@
 
 @implementation CCSprite (CCRemoteSprite)
 
-<<<<<<< HEAD
 
 //	return [[[self alloc] initWithFile:filename] autorelease];
 
@@ -104,34 +103,4 @@
 }
 
 
-=======
-/** update in background texute
- * @param imageURL Image URL * MUST BE * the same size of placeholder Image
- */
--(void) updateTextureWithURL:(NSURL *)imageURL {
-   CGRect rect = CGRectZero;
-   CCTexture2D *tex = [[CCTextureCache sharedTextureCache] textureForKey:[imageURL absoluteString]];
-   if (tex) {
-      rect.size = tex.contentSize;
-      [self setTexture:tex];
-      [self setTextureRect: rect];
-      
-   }
-   else {
-      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-         
-         dispatch_async(dispatch_get_main_queue(), ^{
-            // Update the UI
-            UIImage *image = [UIImage imageWithData:imageData];
-            CCTexture2D *tex = [[CCTextureCache sharedTextureCache] addCGImage:image.CGImage forKey:[imageURL absoluteString]];
-            [self setTexture:tex];
-            NSLog(@" text loaded from : %@", [imageURL absoluteString]);
-         });
-      });
-   }
-}
-
-
->>>>>>> eb3eec311762c0f220f89ecd2d2c01be786d0537
 @end
