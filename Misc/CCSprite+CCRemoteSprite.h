@@ -30,6 +30,8 @@
 
 @interface CCSprite (CCRemoteSprite)
 
++(id) initWithURL:(NSURL *)imageURL placeholder:(NSString *)placeholder;
+
 -(void) updateTextureWithURL:(NSURL *)imageURL;
 
 @end

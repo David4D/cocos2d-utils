@@ -28,6 +28,48 @@
 
 @implementation CCSprite (CCRemoteSprite)
 
+
+//	return [[[self alloc] initWithFile:filename] autorelease];
+
++(id) initWithURL:(NSURL *)imageURL placeholder:(NSString *)placeholder {
+   return [[self alloc] initWithURL:imageURL placeholder:placeholder];
+}
+
+-(id) initWithURL:(NSURL *)imageURL placeholder:(NSString *)placeholder {
+	NSAssert(imageURL != nil, @"Invalid imageURL for sprite");
+   CGRect rect = CGRectZero;
+	CCTexture2D *tex = [[CCTextureCache sharedTextureCache] textureForKey:[imageURL absoluteString]];
+	if( tex ) {
+      rect.size = tex.contentSize;
+      [self setTexture:tex];
+      [self setTextureRect: rect];
+	}
+   else {
+      tex = [[CCTextureCache sharedTextureCache] addImage:placeholder];
+      rect.size = tex.contentSize;
+      [self setTexture:tex];
+      [self setTextureRect: rect];
+      
+      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+         
+         dispatch_async(dispatch_get_main_queue(), ^{
+            // Update the UI
+            UIImage *image = [UIImage imageWithData:imageData];
+            if (image) {
+               CCTexture2D *tex = [[CCTextureCache sharedTextureCache] textureForKey:[imageURL absoluteString]];
+               if (!tex) {
+                  tex = [[CCTextureCache sharedTextureCache] addCGImage:image.CGImage forKey:[imageURL absoluteString]];
+                  NSLog(@"%@ loaded.", [imageURL absoluteString]);
+               }
+               [self setTexture:tex];
+            }
+         });
+      });
+   }
+   return [self initWithTexture:tex rect:rect];
+}
+
 /** update in background texute
  * @param imageURL Image URL * MUST BE * the same size of placeholder Image
  */
@@ -47,9 +89,14 @@
          dispatch_async(dispatch_get_main_queue(), ^{
             // Update the UI
             UIImage *image = [UIImage imageWithData:imageData];
-            CCTexture2D *tex = [[CCTextureCache sharedTextureCache] addCGImage:image.CGImage forKey:[imageURL absoluteString]];
-            [self setTexture:tex];
-            NSLog(@" text loaded from : %@", [imageURL absoluteString]);
+            if (image) {
+               CCTexture2D *tex = [[CCTextureCache sharedTextureCache] textureForKey:[imageURL absoluteString]];
+               if (!tex) {
+                  tex = [[CCTextureCache sharedTextureCache] addCGImage:image.CGImage forKey:[imageURL absoluteString]];
+                  NSLog(@" text loaded from : %@", [imageURL absoluteString]);
+               }
+               [self setTexture:tex];
+            }
          });
       });
    }
